@@ -1,0 +1,13 @@
+@import 'assets/css/variables.css';
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr minmax(auto, 400px) 1fr;
+}
+
+.form {
+  grid-column: 2 / 3;
+  /* background-size: 8px 8px;
+  background-image: linear-gradient(to right, color(#e83a30 a(20%)) 1px, transparent 1px),
+    linear-gradient(to bottom, color(#e83a30 a(20%)) 1px, transparent 1px); */
+}
