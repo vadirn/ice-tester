@@ -1,0 +1,14 @@
+@import 'assets/css/variables.css';
+
+.container {
+  /* background-image: radial-gradient(
+    circle 770px at 19.7% 20%,
+    rgba(255, 244, 145, 1) 20.8%,
+    rgba(255, 250, 200, 1) 100.2%
+  ); */
+  background-color: var(--color-neutral-2);
+}
+
+.configuration {
+  color: color(var(--color-neutral-5) a(80%));
+}

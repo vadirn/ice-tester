@@ -3,49 +3,13 @@ import Form from 'components/Form';
 import RadioButton from 'components/Form/RadioButton';
 import Button from 'components/Form/Button';
 import TextField from 'components/Form/TextField';
-import PropTypes from 'prop-types';
+import ServerListItem from './components/ServerListItem';
+import Report from './components/Report';
+import { Link } from 'components/Link';
 import withConsumer from 'with-consumer';
 import Errors from 'components/Form/Errors';
 import c from 'classnames';
 import s from './styles.css';
-
-class ServerListItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleRemoveClick = this.handleRemoveClick.bind(this);
-  }
-  handleRemoveClick() {
-    this.props.onRemoveClick(this.props.server.key);
-  }
-  render() {
-    const { server } = this.props;
-    let urls = '';
-    if (typeof server.urls === 'string') {
-      urls = server.urls;
-    } else {
-      urls = server.urls.join(', ');
-    }
-    return (
-      <div className="fs-s flex p-u m-s-t negative-m-u-r negative-m-u-l bg-neutral-2" key={server.key}>
-        <div className="flex-auto m-s-r">
-          <div className="bold truncate">{urls}</div>
-          <div className="truncate">{server.username}</div>
-          <div className="truncate">{server.credential}</div>
-        </div>
-        <div className="color-accent-1">
-          <Button onClick={this.handleRemoveClick} type="button">
-            Remove
-          </Button>
-        </div>
-      </div>
-    );
-  }
-}
-
-ServerListItem.propTypes = {
-  onRemoveClick: PropTypes.func,
-  server: PropTypes.object,
-};
 
 class Default extends Form {
   constructor(props) {
@@ -54,6 +18,9 @@ class Default extends Form {
     this.addServer = this.addServer.bind(this);
     this.removeServer = this.removeServer.bind(this);
     this.handleNewFieldKeyDown = this.handleNewFieldKeyDown.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleStop = this.handleStop.bind(this);
+
     this.state = {
       servers: [],
       IceTransports: 'all',
@@ -62,6 +29,27 @@ class Default extends Form {
       'new[password]': '',
       'new[errors]': [],
     };
+  }
+  handleSubmit(evt) {
+    evt.preventDefault();
+    // prepare RTCConfiguration parameters
+    const rtcConfiguration = {
+      servers: this.state.servers.map(_server => {
+        const { key, ...server } = _server;
+        return server;
+      }),
+      iceTransportPolicy: this.state.iceTransportPolicy,
+    };
+    if (rtcConfiguration.servers.length === 0) {
+      Promise.resolve().then(() => {
+        window.alert('Please add at least one server');
+      });
+    } else {
+      this.props.initPeerConnection(rtcConfiguration);
+    }
+  }
+  handleStop() {
+    this.props.releaseMedia();
   }
   handleNewFieldKeyDown(evt) {
     if (evt.key === 'Enter') {
@@ -109,7 +97,7 @@ class Default extends Form {
   render() {
     return (
       <div className={c('p-m', s.container)}>
-        <form className={c('p-m', s.form)}>
+        <form onSubmit={this.handleSubmit} className={c('p-m', s.form)}>
           <div className="m-m-b">
             <p className="m-s-b">
               <b>Step 1.</b> Add STUN/TURN servers to the list
@@ -187,17 +175,26 @@ class Default extends Form {
           <div className="m-m-b">
             <p className="m-s-b">
               <b>Step 3.</b> Start ICE gathering. This will create a new peerconnection using provided configuration. It
-              will ask for microphone access.
+              might also ask for microphone access.
             </p>
           </div>
 
           <div className="m-m-b">
-            <Button type="submit">Save configuration and start</Button>
+            <span className="inline-block m-u-b">
+              <Button type="submit">Save configuration and start</Button>
+            </span>
+            <span className="inline-block w-s" />
+            <span className="inline-block color-accent-1">
+              <Button type="button" onClick={this.handleStop}>
+                STOP
+              </Button>
+            </span>
           </div>
-
-          <div className="m-m-b">
-            <div className="m-s-b bold">Results</div>
-            ...
+          <Report />
+          <div className="text-center fs-s">
+            <Link rel="noopener noreferrer" href="https://github.com/vadirn/ice-tester" target="_blank">
+              https://github.com/vadirn/ice-tester
+            </Link>
           </div>
         </form>
       </div>
@@ -205,7 +202,7 @@ class Default extends Form {
   }
 }
 
-function filter() {
+function filter({ controller, setState }) {
   return {
     defaultValues: {
       IceTransports: 'all',
@@ -215,6 +212,15 @@ function filter() {
     },
     fieldErrors: {},
     errors: [],
+    getUserMedia() {
+      controller.actions.getUserMedia({ controller });
+    },
+    initPeerConnection(rtcConfiguration) {
+      controller.actions.initPeerConnection({ controller, setState }, rtcConfiguration);
+    },
+    releaseMedia() {
+      controller.actions.releaseMedia({ controller });
+    },
   };
 }
 

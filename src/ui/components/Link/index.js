@@ -4,9 +4,9 @@ import c from 'classnames';
 import s from './styles.css';
 import withConsumer from 'with-consumer';
 
-export function Link({ onClick, href, children }) {
+export function Link({ children, ...props }) {
   return (
-    <a className={s.container} href={href} onClick={onClick}>
+    <a className={s.container} {...props}>
       <div className="relative inline-block">
         <div className={c('absolute top-0 left-0 right-0 bottom-0', s.backdrop)} />
         <div className="relative z1">{children}</div>
@@ -16,8 +16,6 @@ export function Link({ onClick, href, children }) {
 }
 
 Link.propTypes = {
-  onClick: PropTypes.func,
-  href: PropTypes.string.isRequired,
   children: PropTypes.node,
 };
 
