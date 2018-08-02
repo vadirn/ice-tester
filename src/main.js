@@ -1,5 +1,6 @@
 import 'assets/css/global.css';
 import 'babel-polyfill';
+import 'webrtc-adapter';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';

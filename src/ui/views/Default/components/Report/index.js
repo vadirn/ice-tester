@@ -28,10 +28,10 @@ function Report({ rtcConfiguration, iceGatheringState, candidates: _candidates }
       </div>
       <div>
         <b>Candidates:</b>
-        {candidates.map(candidate => {
+        {candidates.map((candidate, idx) => {
           return (
-            <div key={candidate.address}>
-              [{candidate.mediaType}, {candidate.type}] {candidate.address}:{candidate.port}
+            <div key={idx}>
+              [{candidate.mediaType}, {candidate.type}] {candidate.address} (port {candidate.port})
             </div>
           );
         })}

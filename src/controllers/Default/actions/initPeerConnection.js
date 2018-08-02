@@ -26,6 +26,8 @@ function formatPriority(priority) {
 export default function initPeerConnection({ controller, setState }, rtcConfiguration) {
   setState(state => {
     state.rtcConfiguration = rtcConfiguration;
+    state.candidates = [];
+    state.iceGatheringState = '';
     return state;
   });
   if (controller.pc) {
@@ -44,6 +46,7 @@ export default function initPeerConnection({ controller, setState }, rtcConfigur
       }
     };
     const handleICECandidate = function handleICECandidate(evt) {
+      console.log(evt.candidate.candidate);
       if (evt.candidate !== null) {
         const candidate = {
           ...parseCandidate(evt.candidate.candidate),

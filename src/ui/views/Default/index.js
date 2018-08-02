@@ -24,7 +24,7 @@ class Default extends Form {
     this.state = {
       servers: [],
       IceTransports: 'all',
-      'new[uri]': 'stun:stun.l.google.com:19302',
+      'new[uri]': 'stun:ganymede.11sight.com',
       'new[username]': '',
       'new[password]': '',
       'new[errors]': [],
@@ -34,13 +34,13 @@ class Default extends Form {
     evt.preventDefault();
     // prepare RTCConfiguration parameters
     const rtcConfiguration = {
-      servers: this.state.servers.map(_server => {
+      iceServers: this.state.servers.map(_server => {
         const { key, ...server } = _server;
         return server;
       }),
       iceTransportPolicy: this.state.iceTransportPolicy,
     };
-    if (rtcConfiguration.servers.length === 0) {
+    if (rtcConfiguration.iceServers.length === 0) {
       Promise.resolve().then(() => {
         window.alert('Please add at least one server');
       });
@@ -68,9 +68,6 @@ class Default extends Form {
     }, true);
 
     if (allValid) {
-      if (urls.length === 1) {
-        urls = urls[0];
-      }
       const server = { key: new Date().getTime().toString(), urls };
       if (username.length > 0 && password.length > 0) {
         server.username = username;

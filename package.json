@@ -6,7 +6,7 @@
   "scripts": {
     "start": "yarn run clear && yarn run config:dev && env NODE_ENV=development env WEBPACK_MODE=development yarn run webpack:watch",
     "build": "yarn run clear && yarn run config:prod && env NODE_ENV=production env WEBPACK_MODE=production yarn run webpack:build",
-    "clear": "rm -rf build/assets/** && rm -f build/serve.json",
+    "clear": "rm -rf build/assets/** && rm -f build/serve.json && rm -f build/now.json && rm -f build/serve.json",
     "config:dev": "cp serve_configs/development.json build/serve.json",
     "config:prod": "cp serve_configs/production.json build/now.json",
     "webpack:watch": "webpack --config=webpack.config.js --watch",
@@ -59,6 +59,7 @@
     "react-dom": "^16.4.1",
     "serve": "^9.4.0",
     "webpack": "^4.16.3",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.1.0",
+    "webrtc-adapter": "^6.3.1"
   }
 }
