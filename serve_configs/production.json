@@ -1,8 +1,14 @@
 {
-  "rewrites": [
-    {
-      "source": "/**",
-      "destination": "pages/index.html"
-    }
-  ]
+  "name": "ice-tester",
+  "alias": "ice-tester",
+  "type": "static",
+  "static": {
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "pages/index.html"
+      }
+    ]
+  }
 }

@@ -8,7 +8,7 @@
     "build": "yarn run clear && yarn run config:prod && env NODE_ENV=production env WEBPACK_MODE=production yarn run webpack:build",
     "clear": "rm -rf build/assets/** && rm -f build/serve.json",
     "config:dev": "cp serve_configs/development.json build/serve.json",
-    "config:prod": "cp serve_configs/production.json build/serve.json",
+    "config:prod": "cp serve_configs/production.json build/now.json",
     "webpack:watch": "webpack --config=webpack.config.js --watch",
     "webpack:build": "webpack --config=webpack.config.js",
     "server:start": "serve ./build",
