@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import c from 'classnames';
 import s from './styles.css';
 
-function Report({ rtcConfiguration, iceGatheringState, candidates: _candidates }) {
+function Report({ rtcConfiguration, iceGatheringState, publicIP, candidates: _candidates }) {
   // if (!rtcConfiguration) {
   //   return null;
   // }
@@ -15,6 +15,9 @@ function Report({ rtcConfiguration, iceGatheringState, candidates: _candidates }
 
   return (
     <div className={c('p-u negative-m-u-l negative-m-u-r fs-s m-l-b', s.container)}>
+      <div className="m-u-b">
+        Public IP: <b>{publicIP}</b>
+      </div>
       <div className="m-u-b">
         ICE Gathering State: <b>{iceGatheringState}</b>
       </div>
@@ -43,11 +46,13 @@ function Report({ rtcConfiguration, iceGatheringState, candidates: _candidates }
 Report.propTypes = {
   rtcConfiguration: PropTypes.object,
   iceGatheringState: PropTypes.string,
+  publicIP: PropTypes.string,
   candidates: PropTypes.array,
 };
 
 function filter({ data }) {
   return {
+    publicIP: data.publicIP,
     rtcConfiguration: data.rtcConfiguration,
     iceGatheringState: data.iceGatheringState,
     candidates: data.candidates,

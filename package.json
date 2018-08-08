@@ -5,13 +5,14 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn run clear && yarn run config:dev && env NODE_ENV=development env WEBPACK_MODE=development yarn run webpack:watch",
-    "build": "yarn run clear && yarn run config:prod && env NODE_ENV=production env WEBPACK_MODE=production yarn run webpack:build",
-    "clear": "rm -rf build/assets/** && rm -f build/serve.json && rm -f build/now.json && rm -f build/serve.json",
+    "build": "yarn run clear && yarn run config:prod && env NODE_ENV=production env WEBPACK_MODE=production yarn run webpack:build && yarn run html:index",
+    "clear": "rm -rf build/assets/** && rm -rf build/pages/** && rm -f build/serve.json && rm -f build/now.json && rm -f build/serve.json",
     "config:dev": "cp serve_configs/development.json build/serve.json",
     "config:prod": "cp serve_configs/production.json build/now.json",
     "webpack:watch": "webpack --config=webpack.config.js --watch",
     "webpack:build": "webpack --config=webpack.config.js",
     "server:start": "serve ./build",
+    "html:index": "node ./ssr/render-index.js",
     "prettier": "prettier --config .prettierrc.json --write ./src/**/*.js ./external_modules/**/*.js",
     "lint": "eslint . --ext .js --quiet",
     "commit": "git-cz"

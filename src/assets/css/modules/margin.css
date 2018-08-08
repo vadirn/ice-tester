@@ -12,12 +12,6 @@
 :global .m-u-l {
   margin-left: var(--box-u);
 }
-:global .negative-m-u-r {
-  margin-right: calc(-1 * var(--box-u));
-}
-:global .negative-m-u-l {
-  margin-left: calc(-1 * var(--box-u));
-}
 
 :global .m-s-b {
   margin-bottom: var(--box-s);

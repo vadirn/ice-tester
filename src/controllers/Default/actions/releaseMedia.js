@@ -1,4 +1,4 @@
-export default function releaseMedia({ controller }) {
+export default function releaseMedia({ controller, setState }) {
   if (controller.useMedia) {
     controller.useMedia.then(mediaStream => {
       mediaStream.getTracks().forEach(track => {
@@ -10,4 +10,8 @@ export default function releaseMedia({ controller }) {
     controller.pc.close();
   }
   controller.useMedia = undefined;
+  setState(state => {
+    state.iceGatheringState = 'stopped';
+    return state;
+  });
 }

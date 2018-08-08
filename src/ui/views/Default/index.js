@@ -30,6 +30,9 @@ class Default extends Form {
       'new[errors]': [],
     };
   }
+  componentDidMount() {
+    this.props.fetchIP();
+  }
   handleSubmit(evt) {
     evt.preventDefault();
     // prepare RTCConfiguration parameters
@@ -216,7 +219,10 @@ function filter({ controller, setState }) {
       controller.actions.initPeerConnection({ controller, setState }, rtcConfiguration);
     },
     releaseMedia() {
-      controller.actions.releaseMedia({ controller });
+      controller.actions.releaseMedia({ controller, setState });
+    },
+    fetchIP() {
+      controller.actions.fetchIP({ setState });
     },
   };
 }

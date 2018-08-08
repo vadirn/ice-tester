@@ -3,6 +3,7 @@ import DefaultView from 'views/Default';
 import getUserMedia from './actions/getUserMedia';
 import initPeerConnection from './actions/initPeerConnection';
 import releaseMedia from './actions/releaseMedia';
+import fetchIP from './actions/fetchIP';
 
 export default class Default {
   constructor(context, params) {
@@ -11,6 +12,7 @@ export default class Default {
       getUserMedia,
       initPeerConnection,
       releaseMedia,
+      fetchIP,
     };
   }
   get View() {
